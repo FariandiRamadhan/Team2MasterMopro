@@ -17,11 +17,7 @@ Response Body (success) 200 :
 {
     "success" : true,
     "message" : "login successfuly",
-    "data" : {
-        "user_id" : "a132B",
-        "username" : "Foo",
-        "token" : "jwt"
-    }
+    "data" : {}
 }
 ```
 
@@ -38,7 +34,7 @@ Response Body (Failed) 404 :
 
 > sudah login sehingga memiliki cookie
 
-Endpoint : GET /users/(:id)
+Endpoint : GET /users
 
 Response Body (success) 200 :
 ```json
@@ -46,7 +42,8 @@ Response Body (success) 200 :
     "success" : true,
     "message" : "User found",
     "data" : {
-        "username" : "Foo",
+        "user_id"  : "123A",
+        "username" : "Foo"
     }
 }
 ```
@@ -73,3 +70,4 @@ Response Body (success) :
     "message" : "user logout",
     "data" : {}
 }
+```

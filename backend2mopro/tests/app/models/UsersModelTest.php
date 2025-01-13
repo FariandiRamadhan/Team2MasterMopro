@@ -6,23 +6,6 @@ use App\Models\UsersModel;
 
 class UsersModelTest extends CIUnitTestCase
 {
-    /**
-     * Menguji fungsi generateId pada usersModel
-     * php vendor/bin/phpunit --filter testGenerateId tests/app/models/UsersModelTest.php
-     * @return void
-     * @test
-     */
-    public function testGenerateId()
-    {
-        $users_model = new UsersModel();
-        $actual = $users_model->generateId();
-
-        $expected = 25;
-        d($actual);
-        $this->assertIsString($actual);
-
-        $this->assertEquals($expected, strlen($actual));
-    }
 
     /**
      * Menguji bagaimana password diverifikasi untuk login

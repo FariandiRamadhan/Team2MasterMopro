@@ -12,7 +12,7 @@ class AgendasModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ["judul", "meeting_time", "lokasi", "participants", "deskripsi_rapat", "status", "kesimpulan_rapat", "follow_up_actions", "updated_at"];
+    protected $allowedFields    = ["user_id", "judul", "meeting_time", "lokasi", "participants", "deskripsi_rapat", "status", "kesimpulan_rapat", "follow_up_actions", "updated_at"];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

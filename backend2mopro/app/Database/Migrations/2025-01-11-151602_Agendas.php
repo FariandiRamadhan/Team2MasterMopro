@@ -29,6 +29,11 @@ class Agendas extends Migration
                 'constraint'    => 100,
                 'null'          => false
             ],
+            'user_id' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => 25,
+                'null'          => false,
+            ],
             'participants' => [
                 'type'          => 'TEXT',
                 'null'          => false
@@ -68,6 +73,7 @@ class Agendas extends Migration
             ]
         ]);
         $this->forge->addKey('agenda_id', true);
+        $this->forge->addForeignKey('user_id', 'users', 'user_id', 'CASCADE', 'CASCADE', 'fk_user');
         $this->forge->createTable('agendas');
     }
 

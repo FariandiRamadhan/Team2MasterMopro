@@ -30,10 +30,12 @@ class Filters extends BaseFilters
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cors'          => Cors::class,
+        // 'cors'          => Cors::class,
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'jwt'           => \App\Filters\JWTAuthFilter::class,
+        'cors'          => \App\Filters\CorsFilter::class,
     ];
 
     /**
@@ -69,6 +71,9 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
+            'cors',
+            'jwt' => ['except' => ['/users', '/user_management']],
+            // 'jwt'
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',

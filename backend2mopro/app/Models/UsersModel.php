@@ -44,9 +44,4 @@ class UsersModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function generateId(){
-        helper('text');
-        $id = (string) rand(1000,9999) . "-" . random_string("alnum", 20);
-        return $id;
-    }
 }
