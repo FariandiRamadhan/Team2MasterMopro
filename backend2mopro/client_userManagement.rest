@@ -1,0 +1,21 @@
+POST http://localhost:8080/user_management HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Peter",
+    "password": "TheCoolGuy"
+}
+
+###
+
+PUT http://localhost:8080/user_management/9492-JdOebG0pjSh2d98usfMR HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Sieghart",
+    "password": "TheIronHeart"
+}
+
+###
+
+DELETE http://localhost:8080/user_management/9492-JdOebG0pjSh2d98usfMR HTTP/1.1

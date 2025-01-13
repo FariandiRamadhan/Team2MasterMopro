@@ -1,0 +1,25 @@
+POST http://localhost:8080/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "admin",
+    "password": "admin#1234"
+}
+
+###
+# Test password salah
+POST http://localhost:8080/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "admin",
+    "password": "admin#14"
+}
+
+###
+
+GET http://localhost:8080/users HTTP/1.1
+
+###
+
+DELETE http://localhost:8080/users/8660-Lfa89K8otpU0WJ9yx2K7 HTTP/1.1

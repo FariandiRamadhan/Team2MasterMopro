@@ -1,0 +1,87 @@
+POST http://localhost:8080/agendas HTTP/1.1
+content-type: application/json
+
+{
+    "judul": "Rapat para sigma",
+    "meeting_time": {"tanggal": "2025-01-16", "jam": "01:00:00"},
+    "lokasi": "Jalan Skibiddi",
+    "participants": "Kai cenat, baby gronk",
+    "deskripsi_rapat": "1000 Years Mewing Streak"
+}
+
+###
+
+# Remove comma at the end of json
+
+###
+# ERROR EXAMPLE
+POST http://localhost:8080/agendas HTTP/1.1
+content-type: application/json
+
+{
+    "judul": "",
+    "meeting_time": {"tanggal": "2025-01-16", "jam": "01:00:00"},
+    "lokasi": "Jalan Skibiddi",
+    "participants": "",
+    "deskripsi_rapat": "1000 Years Mewing Streak"
+}
+
+###
+# ERROR EXAMPLE
+POST http://localhost:8080/agendas HTTP/1.1
+content-type: application/json
+
+{
+    "judul": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "meeting_time": {"tanggal": "2025-01-16", "jam": "01:00:00"},
+    "lokasi": "Jalan Skibiddi",
+    "participants": "",
+    "deskripsi_rapat": "1000 Years Mewing Streak"
+}
+
+###
+# Mengedit agenda
+PUT http://localhost:8080/agendas/8728-g5HKNkrFKPjnRtK49NPu
+content-type: application/json
+
+{
+    "judul"             : "Rizz party",
+    "meeting_time"      : { "tanggal" : "2024-01-01", "jam" : "01:30:00" },
+    "lokasi"            : "Baz, 123 Street",
+    "participants"      : "foo, bar, baz",
+    "deskripsi_rapat"   : "lorem ipsum dolor sit amet",
+    "status"            : "succeed",
+    "kesimpulan_rapat"  : "lorem ipsum dolor sit amet 2",
+    "follow_up_actions" : "lorem ipsum dolor sit amet 2"
+}
+
+###
+# Menambahkan kesimpulan rapat
+PATCH http://localhost:8080/agendas/8728-g5HKNkrFKPjnRtK49NPu
+content-type: application/json
+
+{
+    "kesimpulan_rapat"  : "Be Yourself and Never Surrender",
+    "follow_up_actions" : "She's beautiful like always"
+}
+
+###
+# Mendapatkan semua agenda
+
+GET http://localhost:8080/agendas HTTP/1.1
+
+###
+# Mendapatkan agenda sesuai limit
+GET http://localhost:8080/agendas?limit=1 HTTP/1.1
+
+###
+# berhasil mendapatkan specific agenda
+GET http://localhost:8080/agendas/8728-g5HKNkrFKPjnRtK49NPu HTTP/1.1
+
+###
+# Gagal mendapatkan specific agenda
+GET http://localhost:8080/agendas/8728-g5HKNkrFKPjnRtK49NP HTTP/1.1
+
+###
+# Berhasil menghapus specific agenda
+DELETE http://localhost:8080/agendas/8955-YefPlTeWetqnR6rc7O4v HTTP/1.1
