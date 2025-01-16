@@ -24,31 +24,54 @@ class UserController extends ResourceController
     public function index()
     {
         // Ambil identitas user pada cookie JWT
-        $user_id         = $this->checkJWT();
+        $user_id          = $this->checkJWT();
 
-        $datas = $this->users_model->select("user_id, username")->where("user_id", $user_id)->findAll();
+        $datas            = $this->users_model->select("user_id, username")
+                            ->where("user_id", $user_id)
+                            ->findAll();
 
         if(count($datas) == 0){
             return $this->respond([
                 "success" => false, 
                 "message" => "user not found",
-                "errors"  => []
+                "errors"  => [
+                    "reason" => ["user_id" => $user_id]
+                ]
             ], 404);
         }
 
-        return $this->respond(["user_id" => $datas[0]["user_id"], "username" => $datas[0]["username"]], 200);
+        return $this->respond([
+            "user_id"  => $datas[0]["user_id"], 
+            "username" => $datas[0]["username"]
+        ], 200);
     }
 
     // Method Login
     public function create()
     {
-        $json         = file_get_contents('php://input');
-        $data         = json_decode($json, true);
+        $json             = file_get_contents('php://input');
+        $data             = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $this->respond([
+                "success" => false,
+                "message" => "JSON structure error",
+                "errors"  => [
+                    "reason" => [
+                        "error_name" => "JSON Error: " . json_last_error_msg(),
+                        "json"       => (string) $json
+                    ]
+                ]
+            ], 400);
+        }
+
         $username     = htmlspecialchars($data["username"]);
         $password     = htmlspecialchars($data["password"]);
         $user_id      = "";
 
-        $get_records  = $this->users_model->where("username", $username)->findAll();
+        $get_records  = $this->users_model
+                        ->where("username", $username)
+                        ->findAll();
 
         $is_logged_in = false;
 
@@ -64,7 +87,7 @@ class UserController extends ResourceController
         if(!$is_logged_in){
             return $this->respond([
                 "success" => false,
-                "message" => "Login failed, no record matched",
+                "message" => "Login gagal, tidak ada username dan password yang cocok",
                 "errors"  => []
             ], 404);
         }
@@ -85,11 +108,11 @@ class UserController extends ResourceController
         return $this->respond([
             "success" => true,
             "message" => "login successfuly",
-            "data" => []
+            "data" => ["token" => $token]
         ], 200);
     }
 
-    // Method logout
+    // Method logout User
     public function delete($id = null)
     {
         // Ambil identitas user pada cookie JWT
@@ -116,12 +139,12 @@ class UserController extends ResourceController
 
     /**
      * Fungsi untuk melakukan pengecekkan JWT
-     * @return string JWT
+     * @return string User Id hasil dari decode JWT
      */
     private function checkJWT(): string{
         // Ambil identitas user pada cookie JWT
         helper('cookie');
-        $token    = get_cookie('access_token') ?: "";
+        $token    = get_cookie(env('secret.cookieName', 'access_token')) ?: "";
 
         $payload = $this->jwt->validateToken($token);
         return count($payload) > 0 ? $payload["user_id"]: "";        

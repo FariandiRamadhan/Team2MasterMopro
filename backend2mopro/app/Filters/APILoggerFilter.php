@@ -5,10 +5,8 @@ namespace App\Filters;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
-use App\Libraries\JWTHandler;
-use Config\Services;
 
-class JWTAuthFilter implements FilterInterface
+class APILoggerFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -27,38 +25,11 @@ class JWTAuthFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        $jwt      = new JWTHandler();
-        helper('cookie');
-
-        // Get Authorization Header (hanya berlaku jika menggunakan Authorization header)
-        // $header = $request->getServer('HTTP_AUTHORIZATION');
-
-        // Get token from cookie instead of header
-        $token    = get_cookie('access_token');
-        
-        if (empty($token)) {
-            return Services::response()->setJSON([
-                "success" => false,
-                'message' => 'Unauthorized request',
-                'errors'  => ["reason" => "token is not found"],
-                'token'   => $token
-            ])->setStatusCode(401);
-        }
-
-        $payload = $jwt->validateToken($token);
-
-        if (!$payload) {
-            // Clear invalid cookie
-            $jwt->removeTokenCookie();
-            
-            return Services::response()->setJSON([
-                "success" => false,
-                'message' => 'Unauthorized request',
-                'errors'  => ["reason" => "token is invalid"]
-            ])->setStatusCode(401);
-        }
-
-        return $request;
+         // Log request
+         $logger = \Config\Services::logger();
+         $logger->info('Request URL: ' . $request->getUri());
+         $logger->info('Request Method: ' . $request->getMethod());
+         $logger->info('Request Body: ' . json_encode($request->getPost()));
     }
 
     /**
@@ -75,6 +46,9 @@ class JWTAuthFilter implements FilterInterface
      */
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        //
+        $logger = \Config\Services::logger();
+         // Log response
+         $logger->info('Response Status: ' . $response->getStatusCode());
+         $logger->info('Response Body: ' . $response->getBody());
     }
 }

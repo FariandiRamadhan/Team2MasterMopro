@@ -30,12 +30,12 @@ class Filters extends BaseFilters
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        // 'cors'          => Cors::class,
+        'cors'          => Cors::class,
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
         'jwt'           => \App\Filters\JWTAuthFilter::class,
-        'cors'          => \App\Filters\CorsFilter::class,
+        'api_logger'    => \App\Filters\APILoggerFilter::class
     ];
 
     /**
@@ -71,14 +71,13 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
-            'cors',
-            'jwt' => ['except' => ['/users', '/user_management']],
-            // 'jwt'
+            'jwt' => ['except' => ['/', '/users', '/user_management']]
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
         ],
         'after' => [
+            // 'cors',
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -108,5 +107,14 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'cors' => [
+            'before' => ['users','users/*', 'agendas/*'],
+            'after'  => ['users','users/*', 'agendas/*'],
+        ],
+        'api_logger' => [
+            'before' => ['users','users/*', 'agendas', 'agendas/*', 'user_management/*'],
+            'after'  => ['users','users/*', 'agendas', 'agendas/*', 'user_management/*'],
+        ],
+    ];
 }

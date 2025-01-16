@@ -5,6 +5,9 @@ content-type: application/json
     "username": "admin",
     "password": "admin#1234"
 }
+###
+# Check Preflight request for CORS
+OPTIONS http://localhost:8080/users HTTP/1.1
 
 ###
 # Test password salah
@@ -19,7 +22,54 @@ content-type: application/json
 ###
 
 GET http://localhost:8080/users HTTP/1.1
+Authorization: token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzY5MzQ3MzcsImV4cCI6MTczNjkzODMzNywidXNlcl9pZCI6Ijg2NjAtTGZhODlLOG90cFUwV0o5eXgySzciLCJ1c2VybmFtZSI6ImFkbWluIn0.gZXrlm_Av4ypiQHY8abdq7KZWnYYPa2dlCxqoEPr1c0
 
 ###
 
 DELETE http://localhost:8080/users/8660-Lfa89K8otpU0WJ9yx2K7 HTTP/1.1
+
+###
+# error anti-bot
+POST https://team2mopro.infinityfreeapp.com/users HTTP/1.1
+Access-Control-Allow-Origin: https://team2mopro.infinityfreeapp.com/
+
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36
+
+Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With
+
+content-type: application/json
+
+{
+    "username": "admin",
+    "password": "admin#1234"
+}
+
+###
+
+GET https://team2mopro.infinityfreeapp.com/users HTTP/1.1
+
+###
+
+POST https://truly-able-rat.ngrok-free.app/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "admin",
+    "password": "admin#1234"
+}
+
+###
+
+GET https://truly-able-rat.ngrok-free.app/users HTTP/1.1
+
+###
+
+POST http://propscountryside.cloud/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "admin",
+    "password": "admin#1234"
+}
+
+###

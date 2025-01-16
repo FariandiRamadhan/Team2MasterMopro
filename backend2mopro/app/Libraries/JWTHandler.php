@@ -13,8 +13,8 @@ class JWTHandler {
     public function __construct() {
         $this->key              = env('secret.key', "");
         $this->algorithm        = env('secret.algo', 'HS256');
-        $this->tokenExpiration  = 3600; // 1 hour
-        $this->cookieName       = 'access_token';
+        $this->tokenExpiration  = env('secret.expireTime', 0);
+        $this->cookieName       = env('secret.cookieName', 'access_token');
         helper('cookie');
     }
 
@@ -41,8 +41,12 @@ class JWTHandler {
         
         return $token;
     }
-
-    public function setTokenCookie($token) {
+    /**
+     * Setting cookie untuk JWT
+     * @param string $token JWT yang sudah di encode
+     * @return void Cookie di set
+     */
+    public function setTokenCookie(string $token) {
         $cookie = [
             'name'     => $this->cookieName,
             'value'    => $token,
@@ -58,10 +62,19 @@ class JWTHandler {
         set_cookie($cookie);
     }
 
+    /**
+     * Menhapus cookie yang berisi JWT
+     * @return void Cookie dihapus
+     */
     public function removeTokenCookie() {
         delete_cookie($this->cookieName);
     }
 
+    /**
+     * Validasi JWT 
+     * @param string $token JWT
+     * @return array Array dari decode yang berisi informasi dari token
+     */
     public function validateToken(string $token): array {
         try {
             $decoded = JWT::decode($token, new Key($this->key, $this->algorithm));

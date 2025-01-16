@@ -23,13 +23,20 @@ class CorsFilter implements FilterInterface
      *
      * @return RequestInterface|ResponseInterface|string|void
      */
+    // Gak dipake dulu
     public function before(RequestInterface $request, $arguments = null)
     {
         //
         header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PATCH, PUT, DELETE");
         header("Access-Control-Allow-Headers: X-API-KEY, Content-Type, Authorization, Origin, X-Requested-With, Accept, Access-Control-Requested-Method");
-        header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE");
+        header("Access-Control-Allow-Credentials: true");
+        log_message('info', 'Request: ' . json_encode([
+            'method' => $request->getMethod(),
+            'uri' => (string)$request->getURI(),
+            'headers' => $request->getHeaders(),
+            'body' => $request->getBody(),
+        ]));
     }
 
     /**

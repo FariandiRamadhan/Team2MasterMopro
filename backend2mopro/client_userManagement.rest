@@ -19,3 +19,13 @@ content-type: application/json
 ###
 
 DELETE http://localhost:8080/user_management/9492-JdOebG0pjSh2d98usfMR HTTP/1.1
+
+###
+
+POST https://propscountryside.cloud/user_management HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Peter",
+    "password": "TheCoolGuy"
+}
