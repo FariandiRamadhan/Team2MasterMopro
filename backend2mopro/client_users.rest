@@ -22,7 +22,6 @@ content-type: application/json
 ###
 
 GET http://localhost:8080/users HTTP/1.1
-Authorization: token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzY5MzQ3MzcsImV4cCI6MTczNjkzODMzNywidXNlcl9pZCI6Ijg2NjAtTGZhODlLOG90cFUwV0o5eXgySzciLCJ1c2VybmFtZSI6ImFkbWluIn0.gZXrlm_Av4ypiQHY8abdq7KZWnYYPa2dlCxqoEPr1c0
 
 ###
 

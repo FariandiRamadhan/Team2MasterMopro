@@ -54,7 +54,7 @@ class JWTHandler {
             'domain'   => '',
             'path'     => '/',
             'prefix'   => '',
-            'secure'   => false,
+            'secure'   => true,
             'httponly' => true,
             'samesite' => 'Strict'
         ];

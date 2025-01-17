@@ -41,8 +41,12 @@ class UserController extends ResourceController
         }
 
         return $this->respond([
-            "user_id"  => $datas[0]["user_id"], 
-            "username" => $datas[0]["username"]
+            "success" => true, 
+            "message" => "user found",
+            "data"    => [
+                            "user_id"  => $datas[0]["user_id"], 
+                            "username" => $datas[0]["username"]
+                        ]
         ], 200);
     }
 
@@ -88,7 +92,12 @@ class UserController extends ResourceController
             return $this->respond([
                 "success" => false,
                 "message" => "Login gagal, tidak ada username dan password yang cocok",
-                "errors"  => []
+                "errors"  => [
+                    "reason" => [
+                        "username" => $username,
+                        "password" => $password
+                    ]
+                ]
             ], 404);
         }
 

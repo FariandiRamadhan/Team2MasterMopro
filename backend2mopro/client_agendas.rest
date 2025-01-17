@@ -71,6 +71,10 @@ content-type: application/json
 GET http://localhost:8080/agendas HTTP/1.1
 
 ###
+
+OPTIONS http://localhost:8080/agendas HTTP/1.1
+
+###
 # Mendapatkan agenda sesuai limit
 GET http://localhost:8080/agendas?limit=1 HTTP/1.1
 
