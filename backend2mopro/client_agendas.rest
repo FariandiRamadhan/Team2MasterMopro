@@ -2,12 +2,16 @@ POST http://localhost:8080/agendas HTTP/1.1
 content-type: application/json
 
 {
-    "judul": "Rapat para sigma",
+    "judul": "Rapat para sigma4",
     "meeting_time": {"tanggal": "2025-01-16", "jam": "01:00:00"},
     "lokasi": "Jalan Skibiddi",
     "participants": "Kai cenat, baby gronk",
     "deskripsi_rapat": "1000 Years Mewing Streak"
 }
+
+### 
+# OPTIONS request terkadang macet
+OPTIONS http://localhost:8080/agendas HTTP/1.1
 
 ###
 
@@ -68,7 +72,7 @@ content-type: application/json
 ###
 # Mendapatkan semua agenda
 
-GET http://localhost:8080/agendas HTTP/1.1
+GET http://localhost:8080/agendas?status=pending&limit=1 HTTP/1.1
 
 ###
 
@@ -81,6 +85,14 @@ GET http://localhost:8080/agendas?limit=1 HTTP/1.1
 ###
 # berhasil mendapatkan specific agenda
 GET http://localhost:8080/agendas/8728-g5HKNkrFKPjnRtK49NPu HTTP/1.1
+
+###
+# berhasil mendapatkan specific agenda berdasarkan judul
+GET http://localhost:8080/agendas/8728-g5HKNkrFKPjnRtK49NPu?judul=sigma HTTP/1.1
+
+###
+# berhasil mendapatkan specific agenda berdasarkan tanggal
+GET http://localhost:8080/agendas/8728-g5HKNkrFKPjnRtK49NPu?tanggal_mulai=2025-01-01&tanggal_selesai=2025-01-15 HTTP/1.1
 
 ###
 # Gagal mendapatkan specific agenda

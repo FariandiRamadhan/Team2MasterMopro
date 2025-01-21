@@ -51,12 +51,12 @@ class JWTHandler {
             'name'     => $this->cookieName,
             'value'    => $token,
             'expire'   => $this->tokenExpiration,
-            'domain'   => '',
-            'path'     => '/',
-            'prefix'   => '',
-            'secure'   => true,
-            'httponly' => true,
-            'samesite' => 'Strict'
+            'domain'   => env("restCookie.domain", ''),
+            'path'     => env("restCookie.path", '/'),
+            'prefix'   => env("restCookie.prefix", ''),
+            'secure'   => env("restCookie.secure", true),
+            'httponly' => env("restCookie.httponly",true),
+            'samesite' => env("restCookie.samesite",'None')
         ];
 
         set_cookie($cookie);

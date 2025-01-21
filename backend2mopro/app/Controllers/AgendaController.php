@@ -7,6 +7,7 @@ use CodeIgniter\RESTful\ResourceController;
 use App\Models\AgendasModel;
 use App\Libraries\JWTHandler;
 use App\Libraries\Utilities;
+use CodeIgniter\I18n\Time;
 
 class AgendaController extends ResourceController
 {
@@ -29,19 +30,24 @@ class AgendaController extends ResourceController
     public function index()
     {
         $limit           = $this->request->getGet("limit") ?: NULL;
+        $status          = $this->request->getGet("status") ?: NULL;
 
         // Ambil identitas user pada cookie JWT
         $user_id         = $this->checkJWT();
 
-        $datas = $this->db->table('agendas')
+        $builder = $this->db->table('agendas')
                 ->join('users', 'users.user_id = agendas.user_id')
                 ->where('deleted_at', NULL)
                 ->where('agendas.user_id', $user_id)
                 ->select("agenda_id, judul, meeting_time, lokasi, username, participants, deskripsi_rapat, status, kesimpulan_rapat, follow_up_actions")
                 ->orderBy("created_at", "desc")
-                ->limit($limit)
-                ->get()
-                ->getResultArray();
+                ->limit($limit);
+
+        if(!is_null($status)){
+            $builder->where("status", $status);
+        }
+
+        $datas  = $builder->get()->getResultArray();
 
         $returned_array = $this->formatterGetAgenda($datas);
 
@@ -53,16 +59,27 @@ class AgendaController extends ResourceController
     {
         // Ambil identitas user pada cookie JWT
         $user_id         = $this->checkJWT();
+        $judul           = $this->request->getGet("judul") ?: NULL;
+        $tanggal_mulai   = $this->request->getGet("tanggal_mulai") ?: NULL;
+        $tanggal_selesai = $this->request->getGet("tanggal_selesai") ?: NULL;
 
-        $datas = $this->db->table('agendas')
-                ->join('users', 'users.user_id = agendas.user_id')
-                ->where('deleted_at', NULL)
-                ->where('agendas.user_id', $user_id)
-                ->where("agenda_id", $id)
-                ->select("agenda_id, judul, meeting_time, lokasi, username, participants, deskripsi_rapat, status, kesimpulan_rapat, follow_up_actions")
-                ->limit(1)
-                ->get()
-                ->getResultArray();
+        $builder    = $this->db->table('agendas')
+                    ->join('users', 'users.user_id = agendas.user_id')
+                    ->where('deleted_at', NULL)
+                    ->where('agendas.user_id', $user_id)
+                    ->select("agenda_id, judul, meeting_time, lokasi, username, participants, deskripsi_rapat, status, kesimpulan_rapat, follow_up_actions");
+                    
+        if(!is_null($judul)){
+            $builder->like("judul", $judul);
+        }else if(!is_null($tanggal_mulai) && !is_null($tanggal_selesai)){
+            $builder->where('meeting_time >=', $tanggal_mulai)
+                    ->where('meeting_time <=', $tanggal_selesai);
+        }else{
+            $builder->where("agenda_id", $id)
+                    ->limit(1);
+        }
+
+        $datas      = $builder->get()->getResultArray();
 
         if(count($datas) == 0){
             return $this->respond([
@@ -246,7 +263,9 @@ class AgendaController extends ResourceController
         $returned_array["data"]    = [];
 
         foreach($datas as $data){
-            [$date, $time] = explode(" ", $data["meeting_time"]);
+            $time_obj = Time::parse($data["meeting_time"]);
+            $date = $time_obj->toLocalizedString('dd/MM/yyyy');
+            $time = $time_obj->toLocalizedString('HH:mm');
             $participants  = explode(", ", $data["participants"]);
             array_push($returned_array["data"], [
                 "agenda_id"         => $data["agenda_id"],

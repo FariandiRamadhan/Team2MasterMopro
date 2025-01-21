@@ -7,6 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
+$routes->resource("agendas",['controller' => 'AgendaController']);
+$routes->resource("users",['controller' => 'UserController']);
+$routes->resource("user_management",['controller' => 'UserManagementController']);
+
 /** 
  * Untuk menghandle method OPTIONS yang tidak dikelola secara otomatis oleh Codeigniter 4
  * Options Method digunakan pada preflight response
@@ -17,8 +21,5 @@ $routes->get('/', 'Home::index');
 */
 $routes->options('(:any)', function () {
     // Respons kosong untuk metode OPTIONS
-    return '';
+    // return '';
 });
-$routes->resource("agendas",['controller' => 'AgendaController']);
-$routes->resource("users",['controller' => 'UserController']);
-$routes->resource("user_management",['controller' => 'UserManagementController']);

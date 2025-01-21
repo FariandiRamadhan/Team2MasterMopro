@@ -71,13 +71,14 @@ class Filters extends BaseFilters
      */
     public array $globals = [
         'before' => [
+            'cors' => ['except' => ['/']]
             // 'jwt' => ['except' => ['/', '/users', '/user_management']]
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
         ],
         'after' => [
-            // 'cors',
+            'cors' => ['except' => ['/']],
             // 'honeypot',
             // 'secureheaders',
         ],
@@ -96,7 +97,9 @@ class Filters extends BaseFilters
      *
      * @var array<string, list<string>>
      */
-    public array $methods = ['options' => ['cors']];
+    public array $methods = [
+        // 'options' => ['cors']
+    ];
 
     /**
      * List of filter aliases that should run on any
@@ -111,10 +114,10 @@ class Filters extends BaseFilters
         'jwt'  => [
             'before' => ['users/*', 'agendas', 'agendas/*', 'user_management/*'],
         ],
-        'cors' => [
-            'before' => ['users', 'users/*', 'agendas', 'agendas/*'],
-            'after'  => ['users', 'users/*', 'agendas', 'agendas/*'],
-        ],
+        // 'cors' => [
+        //     'before' => ['users', 'users/*', 'agendas', 'agendas/*'],
+        //     'after'  => ['users', 'users/*', 'agendas', 'agendas/*'],
+        // ],
         'api_logger' => [
             'before' => ['users','users/*', 'agendas', 'agendas/*'],
             'after'  => ['users','users/*', 'agendas', 'agendas/*'],

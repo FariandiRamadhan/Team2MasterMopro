@@ -19,47 +19,49 @@ class Utilities {
                 'label'  => 'user_id',
                 'rules'  => 'required|max_length[25]',
                 'errors' => [
-                    'required'      => 'user id tidak boleh kosong',
-                    'max_length'    => "user id tidak boleh lebih dari {param} karakter",
+                    'required'      => 'User id tidak boleh kosong',
+                    'max_length'    => "User id tidak boleh lebih dari {param} karakter",
                 ],
             ],
             'judul' => [
                 'label'  => 'judul',
-                'rules'  => 'required|max_length[100]|alpha_numeric_space',
+                'rules'  => 'required|max_length[100]|alpha_numeric_space|is_unique[agendas.judul]',
                 'errors' => [
-                    'required'              => 'judul meeting tidak boleh kosong',
-                    'max_length'            => "judul meeting tidak boleh lebih dari {param} karakter",
-                    'alpha_numeric_space'   => "judul meeting hanya boleh diisi huruf atau angka dan spasi"
+                    'required'              => 'Judul meeting tidak boleh kosong',
+                    'max_length'            => "Judul meeting tidak boleh lebih dari {param} karakter",
+                    'alpha_numeric_space'   => "Judul meeting hanya boleh diisi huruf atau angka dan spasi",
+                    'is_unique'             => "Judul meeting ini sudah pernah dibuat"
                 ],
             ],
             'meeting_time' => [
                 'label'  => 'meeting_time',
                 'rules'  => 'required',
                 'errors' => [
-                    'required'      => 'jadwal meeting tidak boleh kosong',
+                    'required'      => 'Jadwal meeting tidak boleh kosong',
                 ],
             ],
             'lokasi' => [
                 'label'  => 'lokasi',
                 'rules'  => 'required|max_length[100]',
                 'errors' => [
-                    'required'      => 'lokasi meeting tidak boleh kosong',
-                    'max_length'    => "lokasi meeting tidak boleh lebih dari {param} karakter",
+                    'required'      => 'Lokasi meeting tidak boleh kosong',
+                    'max_length'    => "Lokasi meeting tidak boleh lebih dari {param} karakter",
                 ],
             ],
             'participants' => [
                 'label'  => 'participants',
-                'rules'  => 'required',
+                'rules'  => 'required|regex_match[/^[a-zA-Z\s,]+$/]',
                 'errors' => [
-                    'required'      => 'participants meeting tidak boleh kosong',
+                    'required'      => 'Participants meeting tidak boleh kosong',
+                    'regex_match'   => 'Input hanya boleh mengandung huruf, tanda koma, dan spasi'
                 ],
             ],
             'deskripsi_rapat' => [
                 'label'  => 'deskripsi_rapat',
                 'rules'  => 'required|alpha_numeric_space',
                 'errors' => [
-                    'required'              => 'deskripsi rapat meeting tidak boleh kosong',
-                    'alpha_numeric_space'   => "deskripsi rapat meeting hanya boleh diisi huruf atau angka dan spasi"
+                    'required'              => 'Deskripsi rapat meeting tidak boleh kosong',
+                    'alpha_numeric_space'   => "Deskripsi rapat meeting hanya boleh diisi huruf atau angka dan spasi"
                 ],
             ]
         ];
