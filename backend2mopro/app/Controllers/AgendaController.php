@@ -266,7 +266,13 @@ class AgendaController extends ResourceController
             $time_obj = Time::parse($data["meeting_time"]);
             $date = $time_obj->toLocalizedString('dd/MM/yyyy');
             $time = $time_obj->toLocalizedString('HH:mm');
-            $participants  = explode(", ", $data["participants"]);
+            $exploded_participants  = explode(",", $data["participants"]);
+            $participants = [];
+            
+            foreach($exploded_participants as $participant){
+                array_push($participants, trim($participant," "));
+            }
+
             array_push($returned_array["data"], [
                 "agenda_id"         => $data["agenda_id"],
                 "judul"             => $data["judul"],
