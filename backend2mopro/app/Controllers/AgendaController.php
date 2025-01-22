@@ -171,9 +171,16 @@ class AgendaController extends ResourceController
                 ]
             ], 400);
         }
-
+        
         $datas      = [];
         if($method === "PUT"){
+            $kesimpulan_rapat  = "";
+            $follow_up_actions = "";
+            $status            = htmlspecialchars($data["status"]);
+            if($status == "succeed"){
+                $kesimpulan_rapat  = htmlspecialchars($data["kesimpulan_rapat"]);
+                $follow_up_actions = htmlspecialchars($data["follow_up_actions"]);
+            }
             $datas = [
                 'agenda_id'         => $id,
                 'judul'             => htmlspecialchars($data["judul"]),
@@ -181,9 +188,9 @@ class AgendaController extends ResourceController
                 'lokasi'            => htmlspecialchars($data["lokasi"]),
                 'participants'      => htmlspecialchars($data["participants"]),
                 'deskripsi_rapat'   => htmlspecialchars($data["deskripsi_rapat"]),
-                'status'            => htmlspecialchars($data["status"]),
-                'kesimpulan_rapat'  => htmlspecialchars($data["kesimpulan_rapat"]),
-                'follow_up_actions' => htmlspecialchars($data["follow_up_actions"]),
+                'status'            => $status,
+                'kesimpulan_rapat'  => $kesimpulan_rapat,
+                'follow_up_actions' => $follow_up_actions,
             ];
             $validation->setRules($Utilities->updateAgendaRules());
 

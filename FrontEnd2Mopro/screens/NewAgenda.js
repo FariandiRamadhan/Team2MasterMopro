@@ -4,8 +4,9 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { handleApiRequest } from '../Utilities/fetch_functions';
 import { statusColors } from '../components/statusColors';
+import { dateHandler, timeHandler } from '../Utilities/datetime_functions';
 
-export default function NewAgenda() {
+export default function NewAgenda({ route }) {
   const navigation = useNavigation();
   const [form, setForm] = useState({
     judul           : '',
@@ -32,7 +33,14 @@ export default function NewAgenda() {
       body    : JSON.stringify(form)
     }).then(response => {
       if(response.success){
-        navigation.navigate('Home')
+        setForm({
+          judul           : '',
+          meeting_time    : {tanggal: "", jam: ""},
+          lokasi          : '',
+          participants    : '',
+          deskripsi_rapat : ''
+        })
+        navigation.navigate('Home', {action: true});
       }
     }).catch(error => {
       if(typeof error[2]?.errors === "undefined"){
@@ -49,47 +57,19 @@ export default function NewAgenda() {
     });
   }
 
-  const dateHandler = (rawDate) => {
-    // Remove any non-numeric characters
-    let cleanInput = rawDate.replace(/[^0-9]/g, '');
-    let formattedDate = "";
-              
-    // Membatasi input YYYY/MM/dd
-    cleanInput = cleanInput.slice(0, 8);
-
-    if (cleanInput.length >= 6) {
-      formattedDate = `${cleanInput.slice(0, 4)}/${cleanInput.slice(4, 6)}/${cleanInput.slice(6, 8)}`;
-    } else if(cleanInput.length >= 4) {
-      formattedDate = `${cleanInput.slice(0, 4)}/${cleanInput.slice(4, 6)}`;
-    } else {
-      formattedDate = cleanInput;
-    }
-    setDate(formattedDate)
-
-    setForm({...form, meeting_time:{...form.meeting_time, tanggal: formattedDate}})
+  const handleDate = (date) => {
+    const formattedDate = dateHandler(date);
+    const [day, month, year] = formattedDate.split('/');
+    setDate(formattedDate);
+    setForm({...form, meeting_time: {...form.meeting_time, tanggal: `${year}-${month}-${day}`}});
   }
 
-  const timeHandler = (rawTime) => {
-    let cleanInput = rawTime.replace(':', '');
-    let formattedTime = "";
-
-    // Remove any non-numeric characters
-    cleanInput = cleanInput.replace(/[^0-9]/g, '');
-    
-    // Limit to 4 digits
-    cleanInput = cleanInput.slice(0, 4);
-    
-    // Add colon after two characters if length is greater than 2
-    if (cleanInput.length >= 2) {
-      formattedTime = cleanInput.slice(0, 2) + ':' + cleanInput.slice(2);
-    } else {
-      formattedTime = cleanInput;
-    }
-
+  const handleTime = (time) => {
+    const formattedTime = timeHandler(time);
     setTime(formattedTime);
     setForm({...form, meeting_time:{...form.meeting_time, jam: formattedTime}});
   }
-// navigation.navigate('Home')
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
@@ -122,10 +102,10 @@ export default function NewAgenda() {
             </View>
             <TextInput
               style={styles.input}
-              placeholder="yyyy/mm/dd"
+              placeholder="dd/mm/yyyy"
               placeholderTextColor="#666"
               value={date}
-              onChangeText={dateHandler}
+              onChangeText={handleDate}
             />
           </View>
 
@@ -134,13 +114,12 @@ export default function NewAgenda() {
               <Ionicons name="time-outline" size={20} color="#0066FF" />
               <Text style={styles.label}>Time</Text>
             </View>
-            {/* <RNDateTimePicker value={new Date()} mode='time' style={styles.input}/> */}
             <TextInput
               style={styles.input}
               placeholder="--:--"
               placeholderTextColor="#666"
               value={time}
-              onChangeText={timeHandler}
+              onChangeText={handleTime}
             />
           </View>
           <Text style={[styles.textError, statusColors.errorText]}>{errorForm.meeting_time}</Text>
@@ -202,7 +181,7 @@ export default function NewAgenda() {
 
           <TouchableOpacity 
             style={styles.cancelButton}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => navigation.goBack()}
           >
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>

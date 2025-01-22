@@ -138,16 +138,16 @@ class Utilities {
             ],
             'kesimpulan_rapat' => [
                 'label'  => 'kesimpulan_rapat',
-                'rules'  => 'required',
+                'rules'  => 'permit_empty',
                 'errors' => [
-                    'required'      => 'Kesimpulan meeting tidak dapat kosong'
+                    'permit_empty'      => 'Kesimpulan meeting dapat dikosongkan'
                 ],
             ],
             'follow_up_actions' => [
                 'label'  => 'follow_up_actions',
-                'rules'  => 'required',
+                'rules'  => 'permit_empty',
                 'errors' => [
-                    'required'      => 'Follow up actions meeting tidak boleh kosong'
+                    'permit_empty'      => 'Follow up actions meeting dapat dikosongkan'
                 ],
             ]
         ];

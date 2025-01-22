@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import Notif from "../components/Notif";
 import { handleApiRequest } from "../Utilities/fetch_functions";
+import LoadingScreen from "./Loading";
 
-export default function MeetingCards(){
+export default function MeetingCards({ reRender }){
     const [isDetailModalVisible, setDetailModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [selectedMeeting, setSelectedMeeting] = useState(null);
     const [dataAgenda, setDataAgenda] = useState([]);
     const handleViewDetails = (meeting) => {
@@ -14,10 +16,14 @@ export default function MeetingCards(){
     };
 
     useEffect(()=>{
+        // console.log(reRender);
         handleApiRequest("/agendas?status=pending&limit=3")
-        .then(response => setDataAgenda(response?.data))
+        .then(response => {
+            setDataAgenda(response?.data);
+            setIsLoading(false);
+        })
         .catch(error => console.error(error));
-    }, []);
+    }, [reRender]);
     
     return (
         <>
@@ -30,7 +36,9 @@ export default function MeetingCards(){
 
         {/* Informasi Meeting */}
         {/* {console.log(dataAgenda)} */}
-        {dataAgenda?.length === 0? <View style={styles.meetingCard}><Text style={styles.meetingTitle}>There's no upcoming meeting</Text></View>: null}
+        {isLoading && (
+            <LoadingScreen/>
+        )}
         {dataAgenda.map((data, index) => {
             if(data?.status.toLowerCase() == "pending"){
 
@@ -78,6 +86,7 @@ export default function MeetingCards(){
                 return <View style={styles.meetingCard} key={index}><Text style={styles.meetingTitle}>There's no upcoming meeting</Text></View>
             }
         })}
+        {dataAgenda?.length === 0 && !isLoading? <View style={styles.meetingCard}><Text style={styles.meetingTitle}>There's no upcoming meeting</Text></View>: null}
     </>
 )}
 const styles = StyleSheet.create({

@@ -3,12 +3,12 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { checkAuthStatus } from './Utilities/fetch_functions';
+
 import Home from './screens/Home';
 import Login from './screens/Login';
 import SplashScreen from './screens/SplashScreen';
 import SplashScreen2 from './screens/SplashScreen2';
 import NewAgenda from './screens/NewAgenda';
-// import Search from './component/Search';
 import ViewAgenda from './screens/ViewAgenda';
 import EditAgenda from './screens/EditAgenda';
 import Notif from './components/Notif';
@@ -38,8 +38,8 @@ function MainDrawer() {
     >
       <Drawer.Screen name="Home" component={Home} options={{ title: 'Meeting Agenda' }} />
       <Drawer.Screen name="NewAgenda" component={NewAgenda} options={{ title: 'New Agenda' }} />
-      <Drawer.Screen name="Search" component={ViewAgenda} options={{ title: 'Search' }} />
-      <Drawer.Screen name="Login" component={Login} options={{ title: 'Logout' }} />
+      <Drawer.Screen name="ViewAgenda" component={ViewAgenda} options={{ title: 'Search' }} />
+      {/* <Drawer.Screen name="Login" component={Login} options={{ title: 'Logout' }} /> */}
     </Drawer.Navigator>
   );
 }
@@ -62,7 +62,7 @@ export default function App() {
       response => {
         if(response){
           setisLogin(false);
-          setUsername(response.data.username);
+          setUsername(response.data?.username);
         }
         setLoading(false);
         // console.log(response, isLogin);

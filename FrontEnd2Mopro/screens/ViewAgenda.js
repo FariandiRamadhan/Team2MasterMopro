@@ -1,40 +1,45 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { handleWarna } from '../components/statusColors';
 import Notif from '../components/Notif';
 import Search from '../components/Search';
+import Filter from '../components/Filter';
 import { handleApiRequest } from '../Utilities/fetch_functions';
 
-export default function ViewAgenda() {
-  const navigation = useNavigation();
+export default function ViewAgenda({ route }) {
+  let data = "";
+  if(typeof route.params !== "undefined"){
+    data = route.params;
+    console.log(data);
+  }
   const [selectedMeeting, setSelectedMeeting] = useState(null);
   const [isDetailModalVisible, setDetailModalVisible] = useState(false);
+  const { filterMeetings } = Filter();
 
   // Menyimpan data Fetch
   const [dataAgenda, setDataAgenda] = useState([]);
-  const [searchParams, setSearchParams] = useState({
-    title           : '',
-    tanggal_mulai   : '',
-    tanggal_selesai : ''
-  });
+  const [filteredMeetings, setFilteredMeetings] = useState([]);
 
   useEffect(()=>{
     handleApiRequest("/agendas")
-      .then(response => setDataAgenda(response?.data))
+    .then(response => {
+      setFilteredMeetings(response?.data);
+      setDataAgenda(response?.data);
+    })
       .catch(error => console.error(error));
-  }, [searchParams]);
+  }, [data]);
 
   const handleViewDetails = (meeting) => {
-    console.log(meeting);
     setSelectedMeeting(meeting);
     setDetailModalVisible(true);
   };
 
-  const handleSearch = (searchTitle) => {
-    setSearchParams()
+  // Memfilter dan mengembalikan datanya
+  const handleSearch = (searchParams) => {
+    const filtered = filterMeetings(dataAgenda, searchParams);  
+    setFilteredMeetings(filtered);
   };
 
   return (
@@ -44,6 +49,7 @@ export default function ViewAgenda() {
         onClose={() => setDetailModalVisible(false)}
         meeting={selectedMeeting}
       />
+
       <View style={styles.header}>
         <Text style={styles.title}>Meeting Agenda</Text>
       </View>
@@ -54,7 +60,7 @@ export default function ViewAgenda() {
 
       <ScrollView style={styles.meetingList}>
         
-        {dataAgenda.map(meeting => (
+        {filteredMeetings.map(meeting => (
           <View key={meeting?.agenda_id} style={styles.meetingItem}>
             <Text style={styles.meetingTitle}>{meeting?.judul}</Text>
             <View style={styles.meetingDetails}>
@@ -103,11 +109,10 @@ export default function ViewAgenda() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: '#1C1C1E'
   },
   header: {
     padding: 20,
-    paddingTop: 40,
   },
   title: {
     fontSize: 28,
@@ -189,5 +194,5 @@ const styles = StyleSheet.create({
   },
   searchSection: {
     zIndex: 1000,
-  },
+  }
 }); 

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import { checkAuthStatus } from '../Utilities/fetch_functions';
+import { checkAuthStatus, handleApiRequest } from '../Utilities/fetch_functions';
 
 export default function CustomDrawerContent({ navigation }) {
     const [username, setUsername] = useState('');
@@ -10,11 +10,18 @@ export default function CustomDrawerContent({ navigation }) {
         checkAuthStatus().then(
               response => {
                 if(response){
-                  setUsername(response.data.username);
+                  setUsername(response.data?.username);
                 }
               }
             ).catch(error => console.error);
     }, [username]);
+
+    const handleCheckout = ()=>{
+      handleApiRequest("/users/a", {method: 'DELETE'})
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+      navigation.navigate('Home', {status: 'logout'});
+    }
     return (
       
     <View style={styles.drawerContainer}>
@@ -32,11 +39,11 @@ export default function CustomDrawerContent({ navigation }) {
         <Ionicons name="add-circle-outline" size={24} color="white" />
         <Text style={styles.drawerLabel}>New Agenda</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.drawerItem} onPress={() => navigation.navigate('Search')}>
+      <TouchableOpacity style={styles.drawerItem} onPress={() => navigation.navigate('ViewAgenda')}>
         <Ionicons name="search-outline" size={24} color="white" />
         <Text style={styles.drawerLabel}>Search Agenda</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.drawerItem, { marginTop: 420 }]} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={[styles.drawerItem, { position: 'absolute', bottom: "5%" }]} onPress={handleCheckout}>
         <Ionicons name="log-out-outline" size={24} color="white" />
         <Text style={styles.drawerLabel}>Logout</Text>
       </TouchableOpacity>

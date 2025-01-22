@@ -1,19 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Platform, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import MeetingCards from '../components/MeetingCards';
 
-const Icon = ({ name, size, color }) => {
-  if (Platform.OS === 'web') {
-    return <Text style={{ fontSize: size, color: color }}>\u2022</Text>;
-  }
-  return <Ionicons name={name} size={size} color={color} />;
-};
-
-export default function Home() {
+export default function Home({ route }) {
   const navigation = useNavigation();
 
+  let data = "";
+  if(typeof route.params !== "undefined"){
+    data = route.params;
+  }
+
+  // useEffect
+  useEffect(()=>{
+    if(data?.status === "logout"){
+      navigation.navigate("Login");
+    }
+  }, [route]);
+  
   const handleNewAgenda = () => {
     navigation.navigate('NewAgenda');
   };
@@ -52,7 +57,7 @@ export default function Home() {
         <View style={styles.upcomingSection}>
           <Text style={styles.sectionTitle}>Upcoming Meetings</Text>
           <View style={styles.meetingsSection}>
-            <MeetingCards/>
+            <MeetingCards reRender={data}/>
           </View>
         </View>
       </View>

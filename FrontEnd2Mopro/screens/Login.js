@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { loginUser } from '../Utilities/fetch_functions';
 import { statusColors } from '../components/statusColors';
@@ -25,7 +25,7 @@ export default function Login() {
             navigation.navigate('SplashScreen');
           } else {
             setErrorLogin("Password dan Username tidak ditemukan");
-            Alert.alert('Error', data.message || 'Login failed');
+            console.error('Error', data.message || 'Login failed');
           }
         }
       ).catch(error => {
@@ -40,7 +40,7 @@ export default function Login() {
 
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.66)' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.66)', alignItems: 'center' }}>
       <View style={styles.header}>
         <Image
           alt="App Logo"
@@ -103,11 +103,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.71)',
     alignItems: 'center',
+    width: '90%',
     padding: 20,
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 15,
     maxHeight: 300,
+    maxWidth: 500,
   },
   title2: {
     fontSize: 20,

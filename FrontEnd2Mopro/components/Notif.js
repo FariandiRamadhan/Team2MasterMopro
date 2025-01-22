@@ -12,7 +12,7 @@ export default function Notif({ isVisible, onClose, meeting }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const handleEditAgenda = () => {
-    navigation.navigate('EditAgenda');
+    navigation.navigate('EditAgenda', {agenda_id: meeting?.agenda_id});
     onClose();
   };
 
@@ -21,7 +21,7 @@ export default function Notif({ isVisible, onClose, meeting }) {
     handleApiRequest(`/agendas/${meeting?.agenda_id}`, {method: 'DELETE'})
     .then(response => {
       console.dir(response);
-      navigation.navigate('Home');
+      navigation.setParams({action: true})
     })
     .catch(error => console.error(error));
     onClose();

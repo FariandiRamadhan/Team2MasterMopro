@@ -14,6 +14,33 @@ export const statusColors = StyleSheet.create({
     errorText: {
       color: '#dc3545'
     },
+    cancelled: {
+      color: '#dc3545',
+    },
+    pending: {
+      color: '#FFD600',
+    },
+    succeed: {
+      color: '#198754',
+    },
+    cancelledBorder: {
+      borderColor: '#dc3545',
+    },
+    pendingBorder: {
+      borderColor: '#FFD600',
+    },
+    succeedBorder: {
+      borderColor: '#198754',
+    },
+    cancelledSelected: {
+      backgroundColor: '#dc3545'
+    },
+    pendingSelected: {
+      backgroundColor: '#FFD600'
+    },
+    succeedSelected: {
+      backgroundColor: '#198754'
+    },
     bgSuccess: {
         backgroundColor: '#198754'
     },
