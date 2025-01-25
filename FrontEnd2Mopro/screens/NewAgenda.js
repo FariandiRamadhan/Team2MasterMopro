@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { handleApiRequest } from '../Utilities/fetch_functions';
 import { statusColors } from '../components/statusColors';
 import { dateHandler, timeHandler } from '../Utilities/datetime_functions';
 
 export default function NewAgenda({ route }) {
   const navigation = useNavigation();
+  let data = false;
+
   const [form, setForm] = useState({
     judul           : '',
     meeting_time    : {tanggal: "", jam: ""},
@@ -15,6 +17,7 @@ export default function NewAgenda({ route }) {
     participants    : '',
     deskripsi_rapat : ''
   });
+
   const [errorForm, setErrorForm] = useState({
     judul           : '',
     meeting_time    : "",
@@ -33,13 +36,6 @@ export default function NewAgenda({ route }) {
       body    : JSON.stringify(form)
     }).then(response => {
       if(response.success){
-        setForm({
-          judul           : '',
-          meeting_time    : {tanggal: "", jam: ""},
-          lokasi          : '',
-          participants    : '',
-          deskripsi_rapat : ''
-        })
         navigation.navigate('Home', {action: true});
       }
     }).catch(error => {

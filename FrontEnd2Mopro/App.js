@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { checkAuthStatus } from './Utilities/fetch_functions';
+import { checkAuthStatus, getData } from './Utilities/fetch_functions';
 
 import Home from './screens/Home';
 import Login from './screens/Login';
@@ -39,7 +39,6 @@ function MainDrawer() {
       <Drawer.Screen name="Home" component={Home} options={{ title: 'Meeting Agenda' }} />
       <Drawer.Screen name="NewAgenda" component={NewAgenda} options={{ title: 'New Agenda' }} />
       <Drawer.Screen name="ViewAgenda" component={ViewAgenda} options={{ title: 'Search' }} />
-      {/* <Drawer.Screen name="Login" component={Login} options={{ title: 'Logout' }} /> */}
     </Drawer.Navigator>
   );
 }
@@ -53,22 +52,33 @@ export default function App() {
   // Mengecek loading jika true maka akan ada loading screen yang muncul
   const [loading, setLoading] = useState(true);
 
+  const [isSkipSplash, setIsSkipSplash] = useState(true);
+
   // Memberikan passing value kepada component SplashScreen untuk menampilkan nama sesuai username login
   const [username, setUsername] = useState("");
 
   // Melakukan fetch data dan re-render screen karena perubahan state
   useEffect(()=>{
+    // console.log(response, isLogin);
+    // Skip splash Screen
+    getData("haveSplash")
+    .then(response => {
+      console.log(response);
+      response === true ? setIsSkipSplash(true): setIsSkipSplash(false);
+    })
+    .catch(error => console.log(error));
+
+    // Check jika user sudah login atau belum dengan mengecek cookie
     checkAuthStatus().then(
       response => {
         if(response){
           setisLogin(false);
           setUsername(response.data?.username);
         }
-        setLoading(false);
-        // console.log(response, isLogin);
-      }
-    ).catch(error => console.error(error));
-  }, [setisLogin])
+      })
+    .catch(error => console.error(error))
+    .finally(() => setLoading(false));
+  }, [isLogin])
 
   if (loading) {
     return <LoadingScreen />;
@@ -81,9 +91,15 @@ export default function App() {
           headerShown: false,
         }}
       >
-        {isLogin ? (<Stack.Screen name="Login" component={Login} />):null}
-        <Stack.Screen name="SplashScreen" component={SplashScreen} initialParams={{ username }}/>
-        <Stack.Screen name="SplashScreen2" component={SplashScreen2} />
+        {isLogin && (<Stack.Screen name="Login" component={Login} />)}
+        {
+          !isSkipSplash && (
+            <>
+              <Stack.Screen name="SplashScreen" component={SplashScreen} initialParams={{ username }}/>
+              <Stack.Screen name="SplashScreen2" component={SplashScreen2} />
+            </>
+          )
+        }
         <Stack.Screen name="MainDrawer" component={MainDrawer} />
         <Stack.Screen name="NewAgenda" component={NewAgenda} />
         <Stack.Screen name="ViewAgenda" component={ViewAgenda} />

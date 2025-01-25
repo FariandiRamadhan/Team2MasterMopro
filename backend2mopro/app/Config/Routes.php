@@ -21,5 +21,5 @@ $routes->resource("user_management",['controller' => 'UserManagementController']
 */
 $routes->options('(:any)', function () {
     // Respons kosong untuk metode OPTIONS
-    // return '';
+    return '';
 });

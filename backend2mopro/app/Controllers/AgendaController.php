@@ -122,11 +122,11 @@ class AgendaController extends ResourceController
         $datas = [
             'agenda_id'         => $Utilities->generateId(),
             'user_id'           => $user_id,
-            'judul'             => htmlspecialchars($data["judul"]),
-            'meeting_time'      => htmlspecialchars(implode(" ", $data["meeting_time"])),
-            'lokasi'            => htmlspecialchars($data["lokasi"]),
-            'participants'      => htmlspecialchars($data["participants"]),
-            'deskripsi_rapat'   => htmlspecialchars($data["deskripsi_rapat"]),
+            'judul'             => htmlspecialchars(isset($data["judul"])? $data["judul"] : ""),
+            'meeting_time'      => htmlspecialchars(implode(" ", isset($data["meeting_time"])? $data["meeting_time"] : ["", ""])),
+            'lokasi'            => htmlspecialchars(isset($data["lokasi"])? $data["lokasi"] : ""),
+            'participants'      => htmlspecialchars(isset($data["participants"])? $data["participants"] : ""),
+            'deskripsi_rapat'   => htmlspecialchars(isset($data["deskripsi_rapat"])? $data["deskripsi_rapat"] : ""),
         ];
 
         $validation->setRules($Utilities->insertAgendaRules());
@@ -176,18 +176,18 @@ class AgendaController extends ResourceController
         if($method === "PUT"){
             $kesimpulan_rapat  = "";
             $follow_up_actions = "";
-            $status            = htmlspecialchars($data["status"]);
+            $status            = htmlspecialchars(isset($data["status"])? $data["status"] : "");
             if($status == "succeed"){
-                $kesimpulan_rapat  = htmlspecialchars($data["kesimpulan_rapat"]);
-                $follow_up_actions = htmlspecialchars($data["follow_up_actions"]);
+                $kesimpulan_rapat  = htmlspecialchars(isset($data["kesimpulan_rapat"])? $data["kesimpulan_rapat"] : "");
+                $follow_up_actions = htmlspecialchars(isset($data["follow_up_actions"])? $data["follow_up_actions"] : "");
             }
             $datas = [
                 'agenda_id'         => $id,
-                'judul'             => htmlspecialchars($data["judul"]),
-                'meeting_time'      => htmlspecialchars(implode(" ", $data["meeting_time"])),
-                'lokasi'            => htmlspecialchars($data["lokasi"]),
-                'participants'      => htmlspecialchars($data["participants"]),
-                'deskripsi_rapat'   => htmlspecialchars($data["deskripsi_rapat"]),
+                'judul'             => htmlspecialchars(isset($data["judul"])? $data["judul"] : ""),
+                'meeting_time'      => htmlspecialchars(implode(" ", isset($data["meeting_time"])? $data["meeting_time"] : ["",""])),
+                'lokasi'            => htmlspecialchars(isset($data["lokasi"])? $data["lokasi"] : ""),
+                'participants'      => htmlspecialchars(isset($data["participants"])? $data["participants"] : ""),
+                'deskripsi_rapat'   => htmlspecialchars(isset($data["deskripsi_rapat"])? $data["deskripsi_rapat"] : ""),
                 'status'            => $status,
                 'kesimpulan_rapat'  => $kesimpulan_rapat,
                 'follow_up_actions' => $follow_up_actions,
@@ -197,8 +197,8 @@ class AgendaController extends ResourceController
         }else if($method === "PATCH"){
             $datas = [
                 'agenda_id'         => $id,
-                'kesimpulan_rapat'  => htmlspecialchars($data["kesimpulan_rapat"]),
-                'follow_up_actions' => htmlspecialchars($data["follow_up_actions"]),
+                'kesimpulan_rapat'  => htmlspecialchars(isset($data["kesimpulan_rapat"])? $data["kesimpulan_rapat"] : ""),
+                'follow_up_actions' => htmlspecialchars(isset($data["follow_up_actions"])? $data["follow_up_actions"] : ""),
             ];
             $validation->setRules($Utilities->updateKesimpulanRules());
         }else{

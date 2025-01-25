@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import { checkAuthStatus, handleApiRequest } from '../Utilities/fetch_functions';
+import { checkAuthStatus, logoutUser } from '../Utilities/fetch_functions';
 
 export default function CustomDrawerContent({ navigation }) {
     const [username, setUsername] = useState('');
@@ -13,14 +13,13 @@ export default function CustomDrawerContent({ navigation }) {
                   setUsername(response.data?.username);
                 }
               }
-            ).catch(error => console.error);
+            ).catch(error => console.error(error));
     }, [username]);
 
     const handleCheckout = ()=>{
-      handleApiRequest("/users/a", {method: 'DELETE'})
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
-      navigation.navigate('Home', {status: 'logout'});
+      logoutUser()
+      .then(response => response? navigation.navigate('Home', {status: 'logout'}): null)
+      .catch(error => console.error(error));
     }
     return (
       
@@ -43,7 +42,7 @@ export default function CustomDrawerContent({ navigation }) {
         <Ionicons name="search-outline" size={24} color="white" />
         <Text style={styles.drawerLabel}>Search Agenda</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.drawerItem, { position: 'absolute', bottom: "5%" }]} onPress={handleCheckout}>
+      <TouchableOpacity style={[styles.drawerItem, { position: 'absolute', bottom: "5%", left: "8%" }]} onPress={handleCheckout}>
         <Ionicons name="log-out-outline" size={24} color="white" />
         <Text style={styles.drawerLabel}>Logout</Text>
       </TouchableOpacity>

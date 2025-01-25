@@ -7,7 +7,7 @@ export default function SplashScreen2() {
   const navigation = useNavigation();
 
   const handleSplashScreen2 = () => {
-    storeData("haveSplash", true);
+    storeData("haveSplash", true, 1);
     navigation.replace('MainDrawer'); // Navigasi ke Drawer
   };
 

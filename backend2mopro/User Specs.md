@@ -17,7 +17,9 @@ Response Body (success) 200 :
 {
     "success" : true,
     "message" : "login successfuly",
-    "data" : {}
+    "data" : {
+        "token": "JWT"
+    }
 }
 ```
 

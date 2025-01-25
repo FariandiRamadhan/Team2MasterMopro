@@ -78,17 +78,7 @@ export default function EditAgenda({ route }) {
     const formattedDate       = dateHandler(form.meeting_time.tanggal);
     const [day, month, year]  = formattedDate.split('/');
     const formattedTime       = timeHandler(form.meeting_time.jam);
-    // console.log(JSON.stringify({
-      // agenda_id         : form.agenda_id,
-      // judul             : form.judul,
-      // meeting_time      : {tanggal: `${year}-${month}-${day}`, jam: formattedTime},
-      // lokasi            : form.lokasi,
-      // participants      : form.participants.toString(),
-      // deskripsi_rapat   : form.deskripsi_rapat,
-      // status            : form.status,
-      // kesimpulan_rapat  : form.kesimpulan_rapat,
-      // follow_up_actions : form.follow_up_actions
-    // }));
+    
     handleApiRequest(`/agendas/${form.agenda_id}`, {
       method  : 'PUT',
       body    : JSON.stringify({

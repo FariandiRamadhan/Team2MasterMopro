@@ -25,12 +25,11 @@ class Utilities {
             ],
             'judul' => [
                 'label'  => 'judul',
-                'rules'  => 'required|max_length[100]|alpha_numeric_space|is_unique[agendas.judul]',
+                'rules'  => 'required|max_length[100]|alpha_numeric_space',
                 'errors' => [
                     'required'              => 'Judul meeting tidak boleh kosong',
                     'max_length'            => "Judul meeting tidak boleh lebih dari {param} karakter",
                     'alpha_numeric_space'   => "Judul meeting hanya boleh diisi huruf atau angka dan spasi",
-                    'is_unique'             => "Judul meeting ini sudah pernah dibuat"
                 ],
             ],
             'meeting_time' => [

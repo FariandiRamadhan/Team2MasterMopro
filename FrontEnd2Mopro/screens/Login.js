@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { loginUser } from '../Utilities/fetch_functions';
+import { getData, loginUser } from '../Utilities/fetch_functions';
 import { statusColors } from '../components/statusColors';
 
 export default function Login() {
@@ -22,6 +22,11 @@ export default function Login() {
         response => {
           console.log(response);
           if (response.success) {
+              getData("haveSplash")
+                  .then(data => {
+                    data === true? navigation.navigate('MainDrawer'): navigation.navigate('SplashScreen');;
+                  })
+                  .catch(error => console.log(error));
             navigation.navigate('SplashScreen');
           } else {
             setErrorLogin("Password dan Username tidak ditemukan");

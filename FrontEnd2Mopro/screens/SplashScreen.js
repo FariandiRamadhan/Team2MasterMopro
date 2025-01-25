@@ -13,12 +13,6 @@ export default function SplashScreen({ route }) {
   // Mendapatkan username yang dipassing
   const { username } = route.params;
 
-  showData("haveSplash")
-  .then(response => {
-    response.data ? navigation.navigate('MainDrawer'): null;
-  })
-  .catch(error => console.log("cookie data not found"));
-
   const handleSplashScreen1 = () => {
     navigation.navigate('SplashScreen2');
   };

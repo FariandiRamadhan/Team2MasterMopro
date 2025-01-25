@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 13 Jan 2025 pada 06.24
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Host: localhost
+-- Generation Time: Jan 25, 2025 at 10:06 AM
+-- Server version: 10.6.18-MariaDB-0ubuntu0.22.04.1
+-- PHP Version: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `agendas`
+-- Table structure for table `agendas`
 --
 
 CREATE TABLE `agendas` (
@@ -44,20 +44,18 @@ CREATE TABLE `agendas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `agendas`
+-- Dumping data for table `agendas`
 --
 
 INSERT INTO `agendas` (`agenda_id`, `judul`, `meeting_time`, `lokasi`, `user_id`, `participants`, `deskripsi_rapat`, `status`, `kesimpulan_rapat`, `follow_up_actions`, `created_at`, `updated_at`, `deleted_at`) VALUES
-('1226-eXL8ZhFYLgbwTVMdvojn', 'pertemuan 1', '2025-01-15 13:30:58', 'Jl. Raya Jakarta Bogor, cilodong', '9473-lfR5Rm9GcEzLiWeyver4', 'Fariandi, Hafizh', 'membahas Project Management', 'pending', '', '', '2025-01-12 22:30:58', '2025-01-12 20:30:58', NULL),
-('5935-KCq0LYDtd5zQjaYcEwE2', 'pertemuan 2', '2025-01-14 13:30:58', 'Jl. Raya Jakarta Bogor, cilodong', '8660-Lfa89K8otpU0WJ9yx2K7', 'Akbar, Anto', 'membahas Database development', 'succeed', 'Kerjasama dilanjutkan', 'Menambahkan staff yang dibutuhkan, memenuhi kebutuhan rapat', '2025-01-12 20:30:58', '2025-01-12 20:30:58', NULL),
-('8433-Fv4XdKykW6wlhrFItLLh', 'pertemuan 2', '2025-01-15 13:30:58', 'Jl. Raya Jakarta Bogor, cilodong', '9473-lfR5Rm9GcEzLiWeyver4', 'Akbar, Anto', 'membahas Project Management', 'pending', '', '', '2025-01-12 20:30:58', '2025-01-12 20:30:58', NULL),
-('8728-g5HKNkrFKPjnRtK49NPu', 'Rizz party', '2024-01-01 01:30:00', 'Baz, 123 Street', '8660-Lfa89K8otpU0WJ9yx2K7', 'foo, bar, baz', 'lorem ipsum dolor sit amet', 'succeed', 'Be Yourself and Never Surrender', 'She&#039;s beautiful like always', '2025-01-12 20:30:58', '2025-01-13 03:47:08', NULL),
-('8955-YefPlTeWetqnR6rc7O4v', 'pertemuan 3', '2025-01-15 13:30:58', 'Jl. Raya Jakarta Bogor, cilodong', '8660-Lfa89K8otpU0WJ9yx2K7', 'Fariandi, Hafizh', 'membahas Project Management', 'cancelled', '', '', '2025-01-12 20:30:58', '2025-01-12 18:23:31', '2025-01-12 18:23:31');
+('4012-AQW9y1toIrks07Kc5IzH', 'Team2Meeting', '2025-01-23 19:00:00', 'Depok', '3779-FA3EK2kSdCTxTG2OBg1j', 'Fariandi,Andi,Akbar,Anto,Fauzi,Nasywa,Hafiz', 'Presentasi project', 'succeed', '', '', '2025-01-22 02:09:38', '2025-01-23 04:44:43', NULL),
+('8624-HD77qZ0j6dOHUnMWiYr6', 'pertemuan 1', '2025-01-15 16:16:56', 'Jl. Raya Jakarta Bogor, cilodong', '3779-FA3EK2kSdCTxTG2OBg1j', 'Fauzi, Nasywa', 'membahas front-end development', 'pending', '', '', '2025-01-14 23:16:56', '2025-01-22 02:14:07', '2025-01-22 02:14:07'),
+('9062-i0oNB66BT3aEEHhqonDZ', 'ok', '2025-01-10 20:20:00', 'ok', '3779-FA3EK2kSdCTxTG2OBg1j', 'ok', 'ok', 'pending', '', '', '2025-01-25 06:11:29', '2025-01-25 06:11:29', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -71,17 +69,17 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`, `batch`) VALUES
-(5, '2025-01-11-151548', 'App\\Database\\Migrations\\Users', 'default', 'App', 1736688241, 1),
-(6, '2025-01-11-151602', 'App\\Database\\Migrations\\Agendas', 'default', 'App', 1736688241, 1);
+(1, '2025-01-11-151548', 'App\\Database\\Migrations\\Users', 'default', 'App', 1736871385, 1),
+(2, '2025-01-11-151602', 'App\\Database\\Migrations\\Agendas', 'default', 'App', 1736871385, 1);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -91,54 +89,53 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`) VALUES
-('3705-G54yMlrnwPKSLlynrf9Q', 'Peter', '$2y$10$O4EL5xaorP5jXpSw3x3QoOWMypXBgzLjFsD3sLfrCgD4Mfk5FJsB6'),
-('8660-Lfa89K8otpU0WJ9yx2K7', 'admin', '$2y$10$3X0twoDwtdwHe9YILOpamexKBQZYjhxviCx/Un7OzEKkpm4WrgGDS'),
-('9473-lfR5Rm9GcEzLiWeyver4', 'admin2', '$2y$10$Ds6KfbiFIqCKV.AHrHPfMeQYN13vJlnuKvkI43.yX2W/S3ROsQIHG'),
-('9492-JdOebG0pjSh2d98usfMR', 'Sieghart', '$2y$10$W6jcDKC27C/F5RQd9mx28Ou77TBF92mWKklYwtYXBCYuefu.5mbsK');
+('3779-FA3EK2kSdCTxTG2OBg1j', 'admin', '$2y$10$bmLC9p8IWfBMiXFIq5xJquzcogHrznv9xt3/JY5szI/ZZ1znBHrn.'),
+('4214-7kS8qKoukXKtsVRUkwNW', 'Peter', '$2y$10$PzjmsAhOj795cbjSjHSZSOsnwOqNmL/nyFx6bhp/2BP.zkAumRvV.'),
+('8384-ZzkAbOFqPxQKF1ZStGx0', 'admin2', '$2y$10$ZXKSsWqoRMo7LEgOwwFh2.s12uwKS93hd6JV597aU9jGmfKcaL7Sm');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `agendas`
+-- Indexes for table `agendas`
 --
 ALTER TABLE `agendas`
   ADD PRIMARY KEY (`agenda_id`),
   ADD KEY `fk_user` (`user_id`);
 
 --
--- Indeks untuk tabel `migrations`
+-- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `migrations`
+-- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `agendas`
+-- Constraints for table `agendas`
 --
 ALTER TABLE `agendas`
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
